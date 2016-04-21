@@ -7,9 +7,7 @@ function html5(){
 					_.meta(),
 					_.title('hello world!')
 				),
-			_.body(
-				_.div('hello world!')
-				)
+			_.body()
 		)
 }
 

@@ -1,3 +1,8 @@
+import _ from './util.js'
+import Node from './node.js'
+
+const extend = _.extend
+
 //primitive
 export function singleTag(tag){
 	return function(attrs = {}){
@@ -13,6 +18,7 @@ export function doubleTag(tag){
 	/*
 	 * @params attrs {object}
 	 * @params html {string}
+	 * @params Node instance {class instance}
 	 */
 	return function(){
 		let _html = ''
@@ -49,18 +55,14 @@ export function sequence(){
 
 	}
 }
-/*
- *
- */
-function extend(oldObj = {}, newObj = {}){
-	for(let o in newObj){
-		if(newObj.hasOwnProperty(o)){
-			oldObj[o] = newObj[o]
-		}
-	}
-	return oldObj
-}
 
+/*
+ * loop an tag
+ * @params {item in items}
+ */
+export const sfor = function(){
+
+}
 
 
 
