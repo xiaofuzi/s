@@ -1,28 +1,36 @@
-import { randomStr } from './util.js'
+import _ from './util.js'
 
-export class Node{
-	constructor(tagName = '', source, parent = null){
+const randomStr = _.randomStr
+const hash = _.hash
+
+export default class Node{
+	constructor(tagName = '', parent = null){
 		this.id = randomStr()
-		this.source = source
+		this.html = ''
+		this.attribute = hash()
 		this.nodeType = ''
 		this.nodeName = tagName
 		this.parent = parent
 		this.children = []
+		this.scope = hash()
+		this.events = hash()
 	}
 
 	get innerHTML(){
 		let _html = ''
 		if(this.children){
 			this.children.forEach(function(child){
-				if(instanceof child == 'Node'){
-					_html += child.innerHTML					
+				if(child instanceof Node){
+					_html += child.outerHTML					
 				}
 			})
+		}else{
+			_html = this.innerHTML
 		}
 		return _html
 	}
 	set innerHTML(_html){
-		if(instanceof _html == 'Node'){
+		if(_html instanceof Node){
 			this.children = []
 			this.children.push(_html)
 		}else if(Array.isArray(_html)){
@@ -31,19 +39,27 @@ export class Node{
 	}
 
 	get outerHTML(){
-		if(isVoid){
-			return `<${this.nodeName} >`
-		}else{
+		let attrs = this.attribute
+		let attrDom = ''
+		let tag = this.nodeName
 
+		attrDom += ` id="${this.id}"`
+		for(let attr in attrs){
+			/*
+			 * events collect
+			 */
+			if(attr.substr(0, 2) === 'on'){
+				let eventType = attr.substr(2)
+				eventType = eventType.toLowerCase()
+				if(!this.events[eventType]){
+					this.events[eventType] = []
+				}
+				this.events[eventType].push(attrs[attr])
+			}else{
+				attrDom += `${attr}="${attrs[attr]}"`				
+			}
 		}
-	}
-}
 
-
-
-export class TextNode extends Node {
-	constructor(source, parent, text){
-		super(source, parent)
-		this.text = text
+		return `<${tag}${attrDom}>${this.innerHTML}</${tag}>`
 	}
 }

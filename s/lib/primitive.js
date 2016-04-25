@@ -1,16 +1,19 @@
 import _ from './util.js'
 import Node from './node.js'
+import VoidNode from './voidNode.js'
+import TextNode from './TextNode.js'
 
 const extend = _.extend
+const hash = _.hash
+const formatStr = _.formatStr
 
 //primitive
 export function singleTag(tag){
 	return function(attrs = {}){
-		let attrDom = ''
-		for(let attr in attrs){
-			attrDom += `${attr}="${attrs[attr]}"`
-		}
-		return `<${tag} ${attrDom}>`
+		let voidNode = new VoidNode(tag)
+		voidNode.attribute = attrs
+	
+		return voidNode
 	}
 }
 
@@ -21,26 +24,29 @@ export function doubleTag(tag){
 	 * @params Node instance {class instance}
 	 */
 	return function(){
-		let _html = ''
-		let attrs = {}
+		let node = new Node(tag)
+		let attrs = hash()
+
 		if(arguments.length > 0){
 			let args = [].slice.call(arguments, 0)
 			args.forEach(function(item){
-				if(typeof item === 'object'){
+				if(item instanceof Node){
+					node.children.push(item)
+					item.parent = node
+				}else if(typeof item === 'object'){
 					attrs = extend(attrs, item)
 				}else{
-					_html += item
+					//string
+					let textNode = new TextNode(node, item)
+					node.children.push(textNode)
 				}
 			})
-		}else{
-			_html = html
 		}
-		//attribute
-		let attrDom = ''
-		for(let attr in attrs){
-			attrDom += `${attr}="${attrs[attr]}"`
-		}
-		return `<${tag} ${attrDom}>${_html}</${tag}>`
+
+		
+		node.attribute = attrs
+
+		return node
 	}
 }
 
@@ -63,10 +69,6 @@ export function sequence(){
 export const sfor = function(){
 
 }
-
-
-
-
 
 
 
