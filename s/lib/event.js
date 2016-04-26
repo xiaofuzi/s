@@ -5,7 +5,7 @@ var slice = [].slice;
 * @param {context}
 */
 
-function Event(ctx){
+export default function Event(ctx){
 	this._ctx = ctx || this;
 	this._events = {};
 }

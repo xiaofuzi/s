@@ -36,6 +36,40 @@ const utils = {
         }
         return oldObj
     },
+    /**
+     * Convert an Array-like object to a real Array.
+     *
+     * @param {Array-like} list
+     * @param {Number} [start] - start index
+     * @return {Array}
+     */
+
+    toArray (list, start) {
+      start = start || 0
+      var i = list.length - start
+      var ret = new Array(i)
+      while (i--) {
+        ret[i] = list[i + start]
+      }
+      return ret
+    },
+    /**
+     * Define a property.
+     *
+     * @param {Object} obj
+     * @param {String} key
+     * @param {*} val
+     * @param {Boolean} [enumerable]
+     */
+
+    def (obj, key, val, enumerable) {
+      Object.defineProperty(obj, key, {
+        value: val,
+        enumerable: !!enumerable,
+        writable: true,
+        configurable: true
+      })
+    },
     /*
      * 随机数生成
      */
@@ -48,6 +82,21 @@ const utils = {
     },
     formatStr(obj){
         return JSON.stringify(obj, '\t')
+    },
+
+    /*
+     * object relative
+     */
+    /**
+     * Check whether the object has the property.
+     *
+     * @param {Object} obj
+     * @param {String} key
+     * @return {Boolean}
+     */
+    hasOwn (obj, key) {
+        let hasOwnProperty = Object.prototype.hasOwnProperty
+        return hasOwnProperty.call(obj, key)
     },
     normalize(path = '', obj = {}) {
     let pArr = null,

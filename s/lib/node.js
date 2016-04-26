@@ -14,6 +14,10 @@ export default class Node{
 		this.children = []
 		this.scope = hash()
 		this.events = hash()
+
+		/*
+		 *
+		 */
 	}
 
 	get innerHTML(){
@@ -42,7 +46,7 @@ export default class Node{
 		let attrs = this.attribute
 		let attrDom = ''
 		let tag = this.nodeName
-
+		this.events = hash()
 		attrDom += ` id="${this.id}"`
 		for(let attr in attrs){
 			/*
