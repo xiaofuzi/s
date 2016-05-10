@@ -6,6 +6,8 @@ import TextNode from './TextNode.js'
 const extend = _.extend
 const hash = _.hash
 const formatStr = _.formatStr
+const isObject = _.isObject
+const isFunc = _.isFunc
 
 //primitive
 export function singleTag(tag){
@@ -18,12 +20,27 @@ export function singleTag(tag){
 }
 
 export function doubleTag(tag){
+
+	/*
+	 * Node diff
+	 * diff type: attrs object text node dom
+	 */
+	function diff(oldArg, newArg){
+		const diff = hash()
+		//dom change, update all
+		if(oldArg.length != newArg.length){
+
+		}else{
+			
+		}
+	}
+
 	/*
 	 * @params attrs {object}
 	 * @params html {string}
 	 * @params Node instance {class instance}
 	 */
-	return function(){
+	return function mkTag(){
 		let node = new Node(tag)
 		let attrs = hash()
 
@@ -33,8 +50,10 @@ export function doubleTag(tag){
 				if(item instanceof Node){
 					node.children.push(item)
 					item.parent = node
-				}else if(typeof item === 'object'){
+				}else if(isObject(item)){
 					attrs = extend(attrs, item)
+				}else if(isFunc(item)){
+					//args.push(item())
 				}else{
 					//string
 					let textNode = new TextNode(node, item)

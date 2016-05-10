@@ -210,9 +210,7 @@ let MyComponent = function(str = 'www.iwaimai.com'){
 				),
 			h.article(
 				h.div(
-						function(){
-							return this.paragraph + this.name + this.age
-						}
+					this.paragraph + this.name + this.age
 					)
 				),
 			h.footer(

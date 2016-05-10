@@ -14,10 +14,6 @@ export default class Node{
 		this.children = []
 		this.scope = hash()
 		this.events = hash()
-
-		/*
-		 *
-		 */
 	}
 
 	get innerHTML(){
